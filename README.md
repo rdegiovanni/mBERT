@@ -4,15 +4,21 @@
 
 ## Requirements
 - Maven
-- *CodeBERT* dependencies:
--- 'pip install torch'
--- 'pip install transformers'
+- *CodeBERT* dependencies:  
+	- 'pip install torch'
+	- 'pip install transformers'
 
 ## Installation
-1. Create folder 'pre-trained/codebert-base-mlm'
-2. Run 'python3 download-codebert.py' script.
-3. Compile by running 'mvn compile'. Done!
-4. Try mBERT by running: './mBERT.sh'
+1. Run 'mkdir -p pre-trained/codebert-base-mlm' to create the folder where (*CodeBERT*) pre-trained model will be saved.
+2. Run 'python3 download-codebert.py' to download the pre-trained language model (*CodeBERT*).
+3. Try (*CodeBERT*) by running: 'python3 run-codebert.py \"int <mask> = b;\"'
+> {'score': 0.23396340012550354, 'token': 740, 'token_str': 'c', 'sequence': 'int c= b;'}
+> {'score': 0.05450829118490219, 'token': 939, 'token_str': 'i', 'sequence': 'int i= b;'}
+> {'score': 0.05004948750138283, 'token': 741, 'token_str': 'b', 'sequence': 'int b= b;'}
+> {'score': 0.04164685681462288, 'token': 10, 'token_str': 'a', 'sequence': 'int a= b;'}
+> {'score': 0.023635799065232277, 'token': 181, 'token_str': 'p', 'sequence': 'int p= b;'}
+4. Compile by running 'mvn compile'. 
+5. You are done! Try mBERT by running: './mBERT.sh'
 
 ## Executing mBERT
 mBERT provides some flags that you can configure:
