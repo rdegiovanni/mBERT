@@ -20,7 +20,7 @@
 > 
 > {'score': 0.04164685681462288, 'token': 10, 'token_str': 'a', 'sequence': 'int a= b;'}
 > 
-> {'score': 0.023635799065232277, 'token': 181, 'token_str': 'p', 'sequence': 'int p= b;'}\
+> {'score': 0.023635799065232277, 'token': 181, 'token_str': 'p', 'sequence': 'int p= b;'}
 
 4. Compile by running 'mvn compile'. 
 5. You are done! Try mBERT by running: './mBERT.sh'
