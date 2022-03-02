@@ -1,0 +1,9 @@
+id,classname,methodname,location,start,end
+0,SimpleMethods.java,int min(int a, int b),13,274,277
+1,SimpleMethods.java,int min(int a, int b),13,274,277
+2,SimpleMethods.java,int min(int a, int b),13,273,273
+3,SimpleMethods.java,int min(int a, int b),13,273,273
+4,SimpleMethods.java,int min(int a, int b),13,273,273
+5,SimpleMethods.java,int min(int a, int b),13,278,278
+6,SimpleMethods.java,int min(int a, int b),13,278,278
+7,SimpleMethods.java,int min(int a, int b),13,278,278

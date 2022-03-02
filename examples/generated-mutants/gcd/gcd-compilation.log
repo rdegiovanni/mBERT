@@ -1,0 +1,404 @@
+> Processing mutant: examples/generated-mutants/gcd//0/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//1/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/1/SimpleMethods.java:21: error: cannot find symbol
+        int gcd = i;
+                  ^
+  symbol:   variable i
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//10/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//11/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/11/SimpleMethods.java:22: error: ';' expected
+        for (int i = 1; i++n1 && i <= n2; i++) {
+                           ^
+examples/generated-mutants/gcd/11/SimpleMethods.java:22: error: not a statement
+        for (int i = 1; i++n1 && i <= n2; i++) {
+                              ^
+examples/generated-mutants/gcd/11/SimpleMethods.java:22: error: ')' expected
+        for (int i = 1; i++n1 && i <= n2; i++) {
+                                        ^
+examples/generated-mutants/gcd/11/SimpleMethods.java:22: error: ';' expected
+        for (int i = 1; i++n1 && i <= n2; i++) {
+                                             ^
+4 errors
+> Processing mutant: examples/generated-mutants/gcd//12/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/12/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; I <= n1 && i <= n2; i++) {
+                        ^
+  symbol:   variable I
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//13/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/13/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; pi <= n1 && i <= n2; i++) {
+                        ^
+  symbol:   variable pi
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//14/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/14/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; f <= n1 && i <= n2; i++) {
+                        ^
+  symbol:   variable f
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//15/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/15/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; i <= n && i <= n2; i++) {
+                             ^
+  symbol:   variable n
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//16/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//17/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//18/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//19/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/19/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; i <= N && i <= n2; i++) {
+                             ^
+  symbol:   variable N
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//2/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//20/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//21/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//22/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/22/SimpleMethods.java:22: error: ';' expected
+        for (int i = 1; i <= n1 && i++n2; i++) {
+                                      ^
+examples/generated-mutants/gcd/22/SimpleMethods.java:22: error: ')' expected
+        for (int i = 1; i <= n1 && i++n2; i++) {
+                                        ^
+examples/generated-mutants/gcd/22/SimpleMethods.java:22: error: ';' expected
+        for (int i = 1; i <= n1 && i++n2; i++) {
+                                             ^
+3 errors
+> Processing mutant: examples/generated-mutants/gcd//23/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/23/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; i <= n1 && I <= n2; i++) {
+                                   ^
+  symbol:   variable I
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//24/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/24/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; i <= n1 && c <= n2; i++) {
+                                   ^
+  symbol:   variable c
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//25/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/25/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; i <= n1 && j <= n2; i++) {
+                                   ^
+  symbol:   variable j
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//26/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//27/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/27/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; i <= n1 && i <= n; i++) {
+                                        ^
+  symbol:   variable n
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//28/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//29/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//3/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//30/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/30/SimpleMethods.java:22: error: illegal start of expression
+        for (int i = 1; i <= n1 && i <= n2; i++)) {
+                                                ^
+1 error
+> Processing mutant: examples/generated-mutants/gcd//31/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//32/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/32/SimpleMethods.java:22: error: ')' expected
+        for (int i = 1; i <= n1 && i <= n2; i++;) {
+                                               ^
+examples/generated-mutants/gcd/32/SimpleMethods.java:22: error: illegal start of expression
+        for (int i = 1; i <= n1 && i <= n2; i++;) {
+                                                ^
+2 errors
+> Processing mutant: examples/generated-mutants/gcd//33/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/33/SimpleMethods.java:22: error: cannot find symbol
+        for (int i = 1; i <= n1 && i <= n2; I++) {
+                                            ^
+  symbol:   variable I
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//34/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/34/SimpleMethods.java:22: error: illegal start of expression
+        for (int i = 1; i <= n1 && i <= n2; ++) {
+                                              ^
+1 error
+> Processing mutant: examples/generated-mutants/gcd//35/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//36/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//37/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//38/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//39/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//4/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//40/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/40/SimpleMethods.java:23: error: ')' expected
+            if (n1//i == 0 && n2 % i == 0) {
+                  ^
+examples/generated-mutants/gcd/40/SimpleMethods.java:27: error: illegal start of type
+        return gcd;
+        ^
+examples/generated-mutants/gcd/40/SimpleMethods.java:27: error: <identifier> expected
+        return gcd;
+                  ^
+examples/generated-mutants/gcd/40/SimpleMethods.java:29: error: class, interface, or enum expected
+}
+^
+4 errors
+> Processing mutant: examples/generated-mutants/gcd//41/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//42/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//43/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//44/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/44/SimpleMethods.java:23: error: cannot find symbol
+            if (n % i == 0 && n2 % i == 0) {
+                ^
+  symbol:   variable n
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//45/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//46/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//47/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/47/SimpleMethods.java:23: error: cannot find symbol
+            if (nb % i == 0 && n2 % i == 0) {
+                ^
+  symbol:   variable nb
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//48/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/48/SimpleMethods.java:23: error: cannot find symbol
+            if (n1 % j == 0 && n2 % i == 0) {
+                     ^
+  symbol:   variable j
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//49/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//5/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//50/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/50/SimpleMethods.java:23: error: cannot find symbol
+            if (n1 % I == 0 && n2 % i == 0) {
+                     ^
+  symbol:   variable I
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//51/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//52/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//53/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//54/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/54/SimpleMethods.java:23: error: cannot find symbol
+            if (n1 % i == zero && n2 % i == 0) {
+                          ^
+  symbol:   variable zero
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//55/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//56/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//57/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//58/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/58/SimpleMethods.java:23: error: ')' expected
+            if (n1 % i == 0 && n2//i == 0) {
+                                 ^
+examples/generated-mutants/gcd/58/SimpleMethods.java:27: error: illegal start of type
+        return gcd;
+        ^
+examples/generated-mutants/gcd/58/SimpleMethods.java:27: error: <identifier> expected
+        return gcd;
+                  ^
+examples/generated-mutants/gcd/58/SimpleMethods.java:29: error: class, interface, or enum expected
+}
+^
+4 errors
+> Processing mutant: examples/generated-mutants/gcd//59/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//6/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//60/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//61/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//62/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/62/SimpleMethods.java:23: error: cannot find symbol
+            if (n1 % i == 0 && n % i == 0) {
+                               ^
+  symbol:   variable n
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//63/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//64/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/64/SimpleMethods.java:23: error: cannot find symbol
+            if (n1 % i == 0 && nb % i == 0) {
+                               ^
+  symbol:   variable nb
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//65/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/65/SimpleMethods.java:23: error: cannot find symbol
+            if (n1 % i == 0 && n2 % j == 0) {
+                                    ^
+  symbol:   variable j
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//66/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//67/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//68/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//69/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//7/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//70/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//71/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//72/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//73/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//74/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//75/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//76/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/76/SimpleMethods.java:24: error: cannot find symbol
+                div = i;
+                ^
+  symbol:   variable div
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//77/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/77/SimpleMethods.java:24: error: illegal start of expression
+                ^ = i;
+                ^
+examples/generated-mutants/gcd/77/SimpleMethods.java:24: error: illegal start of expression
+                ^ = i;
+                  ^
+2 errors
+> Processing mutant: examples/generated-mutants/gcd//78/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/78/SimpleMethods.java:24: error: cannot find symbol
+                cd = i;
+                ^
+  symbol:   variable cd
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//79/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/79/SimpleMethods.java:24: error: cannot find symbol
+                g = i;
+                ^
+  symbol:   variable g
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//8/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/8/SimpleMethods.java:22: error: unclosed comment
+        for (int i = 1; i <= n1/*i <= n2; i++) {
+                               ^
+examples/generated-mutants/gcd/8/SimpleMethods.java:31: error: reached end of file while parsing
+2 errors
+> Processing mutant: examples/generated-mutants/gcd//80/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//81/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//82/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//83/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//84/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//85/
+> Mutant Compiled
+> Processing mutant: examples/generated-mutants/gcd//86/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/86/SimpleMethods.java:27: error: incompatible types: boolean cannot be converted to int
+        return true;
+               ^
+1 error
+> Processing mutant: examples/generated-mutants/gcd//87/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/87/SimpleMethods.java:27: error: cannot find symbol
+        return g;
+               ^
+  symbol:   variable g
+  location: class SimpleMethods
+1 error
+> Processing mutant: examples/generated-mutants/gcd//88/
+> Mutant Incorrect Syntax
+examples/generated-mutants/gcd/88/SimpleMethods.java:27: error: incompatible types: boolean cannot be converted to int
+        return false;
+               ^
+1 error
+> Processing mutant: examples/generated-mutants/gcd//9/
+> Mutant Compiled
+
+
+Mutants: 89
+Compilable: 55
