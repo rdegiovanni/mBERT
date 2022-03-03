@@ -1,10 +1,10 @@
 # mBERT
-**mBERT** is a mutation testing tool that uses a pre-trained language model (*CodeBERT*) to generate mutants.  
+**mBERT** is a mutation testing tool that uses [*CodeBERT*](https://github.com/microsoft/CodeBERT), a pre-trained language model, to generate mutants.  
 
 
 ## Requirements
 - Maven
-- *CodeBERT* dependencies:  
+- [*CodeBERT*](https://github.com/microsoft/CodeBERT) dependencies:  
 	- `pip install torch`
 	- `pip install transformers`
 
