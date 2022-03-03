@@ -22,11 +22,11 @@
 > 
 > {'score': 0.023635799065232277, 'token': 181, 'token_str': 'p', 'sequence': 'int p= b;'}
 
-4. Compile by running `mvn compile`. 
-5. You are done! Try mBERT by running: `./mBERT.sh`
+4. Compile **mBERT**: `mvn compile`. 
+5. Done! Try **mBERT** by running: `./mBERT.sh`
 
 ## Executing mBERT
-mBERT provides some flags that you can configure:
+**mBERT** provides some flags that you can configure:
 - `-in=source_file_name` 
 - `-out=mutants_directory`
 - `-N=max_num_of_mutants`
