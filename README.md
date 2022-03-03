@@ -11,7 +11,7 @@
 ## Installation
 1. Run `mkdir -p pre-trained/codebert-base-mlm` to create the folder where *CodeBERT* pre-trained model will be saved.
 2. Run `python3 download-codebert.py` to download *CodeBERT* pre-trained model.
-3. Try *CodeBERT* by running: `python3 run-codebert.py \"int \<mask\> = b;\"`
+3. Try *CodeBERT* by running: `python3 run-codebert.py "int <mask> = b;"`
 > {'score': 0.23396340012550354, 'token': 740, 'token_str': 'c', 'sequence': 'int c= b;'}
 > 
 > {'score': 0.05450829118490219, 'token': 939, 'token_str': 'i', 'sequence': 'int i= b;'}
