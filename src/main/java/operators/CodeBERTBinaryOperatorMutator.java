@@ -17,56 +17,36 @@ public class CodeBERTBinaryOperatorMutator extends CodeBERTOperatorMutator{
 		return candidate instanceof CtBinaryOperator;
 	}
 
+	public String getOperator(CtExpression candidate) {
+		return "BinaryOperatorMutator";
+	}
+
 	public MaskedTokenMutants mutate(CtBinaryOperator original) {
 		//compute token to mutate position
 		int start = original.getLeftHandOperand().getPosition().getSourceEnd()+1;
 		int end = original.getRightHandOperand().getPosition().getSourceStart() -1;
 		CompilationUnit origUnit = original.getPosition().getCompilationUnit();
 		SourcePosition position = new SourcePositionImpl(origUnit,start,end,origUnit.getLineSeparatorPositions());
-		//mutateLeft
-		//mutateOperator
+
 		String originalOp = original.getKind().toString();
-		CtBinaryOperator masked = new CtBinaryOperatorImpl();
-		original.replace(masked);
-		masked.setRightHandOperand(original.getRightHandOperand().clone());
-		masked.setLeftHandOperand(original.getLeftHandOperand().clone());
-		masked.setType(original.getType());
-		BinaryOperatorKind maskedOp = BinaryOperatorKind.MASK;
-		masked.setKind(maskedOp);
-		maskedOp.mask();
 
-		String maskedMethodStr = method.toString();
-
-//		CtComment comment = new CtCommentImpl();
-//		CtElement parentStmt = getStatementToComment(masked);
-//		if (parentStmt != null) {
-//			comment.setContent(masked.toString());
-//			comment.setCommentType(CtComment.CommentType.INLINE);
-//			parentStmt.addComment(comment);
-//		}
-
+		String operator =  getOperator(original);
+		String maskedExprStr = original.getLeftHandOperand().toString() + " <mask> " + original.getRightHandOperand().toString();
+		MaskedTokenMutants maskedTokenMutants = new MaskedTokenMutants(originalClassStr,method,originalOp,maskedExprStr,operator,position);
+		String maskedMethodStr = maskedTokenMutants.getMaskedSequence();
 		CodeBERT.CodeBERTResult result = CodeBERT.mutate(maskedMethodStr);
-		MaskedTokenMutants maskedTokenMutants = new MaskedTokenMutants(originalClassStr,method,originalOp,masked.toString(),position);
-		maskedOp.setLabel(originalOp);
-		maskedOp.unmask();
+
 		if (result == CodeBERT.CodeBERTResult.SUCCEEDED) {
+			String masked_seq = CodeBERT.masked_sequence;
 			for (int pos = 0; pos < CODEBERT_NUM_OF_PREDICTIONS; pos++) {
 				if (CodeBERT.predictedTokens.size() > pos) {
 					String predToken = CodeBERT.predictedTokens.get(pos);
-//					BinaryOperatorKind token = BinaryOperatorKind.getType(predToken);
-					maskedOp.setLabel(predToken);
-//					BinaryOperatorKind bkp = masked.getKind();
-//					masked.setKind(token);
-					maskedTokenMutants.setMutant(maskedOp, predToken,pos);
-//					masked.setKind(bkp);
+					float score = CodeBERT.predictedScores.get(pos);
+					maskedTokenMutants.setMutant(masked_seq,predToken, predToken,pos,score);
 				}
 			}
-			maskedOp.setLabel("");
 			mutants.add(maskedTokenMutants);
 		}
-//		if (parentStmt != null)
-//			parentStmt.removeComment(comment);
-		masked.replace(original);
 		return maskedTokenMutants;
 	}
 

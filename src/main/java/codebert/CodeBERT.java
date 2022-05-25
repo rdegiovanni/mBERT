@@ -13,6 +13,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CodeBERT {
+
+
+    public static int numOfTimeout = 0;
+    public static int numOfError = 0;
+    public static int numOfCalls = 0;
+
     public static enum CodeBERTResult {
         SUCCEEDED,
         TIMEOUT,
@@ -21,28 +27,17 @@ public class CodeBERT {
         public boolean inconclusive () { return this == TIMEOUT || this == ERROR; }
     }
 
-    public static int numOfTimeout = 0;
-    public static int numOfError = 0;
-    public static int numOfCalls = 0;
-
     public static List<String> predictedTokens = new LinkedList<>();
     public static List<Float> predictedScores = new LinkedList<>();
+    public static String masked_sequence = "";
+
     public static CodeBERTResult mutate(String maskedSequence) {
         numOfCalls++;
-
-//        String maskedSequence;
-//        if (input.length() < 512) //512 is the maximum sequence length for codebert model
-//            maskedSequence = input;
-//        else {
-//            int mask_index = input.indexOf("<mask>");
-//            int start_index = Math.max(0, mask_index - 256);
-//            int stop_index = Math.min(input.length(), mask_index + 256) - 1;
-//            maskedSequence = input.substring(start_index,Math.max(stop_index,511));
-//        }
 
         String s = null;
         CodeBERTResult result = CodeBERTResult.ERROR;
         predictedTokens.clear();
+        predictedScores.clear();
         try {
             // run the Unix "ps -ef" command
             // using the Runtime exec method:
@@ -83,13 +78,19 @@ public class CodeBERT {
                         System.out.println(s);
                         if (isJSONValid(s)) {
                             JSONObject jObject = new JSONObject(s);
-                            String predictedToken = jObject.getString("token_str");
-                            predictedTokens.add(predictedToken);
-                            System.out.println(predictedToken);
+                            if (jObject.has("masked_seq")){
+                                masked_sequence = jObject.getString("masked_seq");
+                            }
+                            else {
+                                String predictedToken = jObject.getString("token_str");
 
-                            //get token score
-                            float predictedScore = jObject.getFloat("score");
-                            predictedScores.add(predictedScore);
+                                predictedTokens.add(predictedToken);
+                                System.out.println(predictedToken);
+
+                                //get token score
+                                float predictedScore = jObject.getFloat("score");
+                                predictedScores.add(predictedScore);
+                            }
                         }
                     }
                     // Close the InputStream

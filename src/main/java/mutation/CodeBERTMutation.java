@@ -2,6 +2,7 @@ package mutation;
 
 import operators.CodeBERTOperatorMutator;
 import operators.MaskedTokenMutants;
+import operators.mBERTMutant;
 import org.mdkt.compiler.InMemoryJavaCompiler;
 import spoon.Launcher;
 import spoon.reflect.CtModel;
@@ -39,7 +40,7 @@ public class CodeBERTMutation<T> {
 	private CodeBERTOperatorMutator mutator;
 
 	/** the produced mutants */
-	private final List<String> mutants = new ArrayList<>();
+	private final List<mBERTMutant> mutants = new ArrayList<>();
 	private final List<MaskedTokenMutants> maskedMutants = new ArrayList<>();
 	private final List<String> unhandled_mutations = new LinkedList<>();
 	// public for testing
@@ -78,11 +79,6 @@ public class CodeBERTMutation<T> {
 
 		//read entire source code into string to produce the mutants later.
 		String originalClassStr = Files.readString(Path.of(sourceCodeToBeMutated));
-
-
-//		l.getFactory().getEnvironment().setAutoImports(false);
-//		l.getFactory().getEnvironment().setNoClasspath(true);
-//		l.getFactory().getEnvironment().setPrettyPrintingMode(Environment.PRETTY_PRINTING_MODE.AUTOIMPORT);
 
 		CtClass origClass = (CtClass) l.getFactory().Package().getRootPackage()
 				.getElements(new TypeFilter(CtClass.class)).get(0);
@@ -131,7 +127,7 @@ public class CodeBERTMutation<T> {
 				if (mutants.size() + curr_iteration_num_of_mutants > Settings.MAX_NUM_OF_MUTANTS)
 					break;
 			}
-			for(String mut : mutator.getAllMutants()) {
+			for(mBERTMutant mut : mutator.getAllMutants()) {
 				if (!mutants.contains(mut))
 					mutants.add(mut);
 			}
@@ -185,9 +181,9 @@ public class CodeBERTMutation<T> {
 
 	public List<CtClass> getAllMutantClasses() {
 		List<CtClass> all_mutants = new LinkedList<>();
-		for(String m : mutants) {
+		for(mBERTMutant m : mutants) {
 			if (m != null) {
-				CtClass klass = Launcher.parseClass(m);
+				CtClass klass = Launcher.parseClass(m.getMutant());
 				all_mutants.add(klass);
 			}
 		}
@@ -197,7 +193,7 @@ public class CodeBERTMutation<T> {
 	/*
 	 * Return every useful (compilable and non-equivalent) mutant
 	 */
-	public List<String> getAllMutants() {
+	public List<mBERTMutant> getAllMutants() {
 		return mutants;
 	}
 
@@ -208,51 +204,6 @@ public class CodeBERTMutation<T> {
 		return maskedMutants;
 	}
 
-//	public List<CtClass> getFirstMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : maskedMutants) {
-//			if (m.getFirstMutant() != null)
-//				all_mutants.add(m.getFirstMutant());
-//		}
-//		return all_mutants;
-//	}
-//
-//	public List<CtClass> getSecondMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : maskedMutants) {
-//			if (m.getSecondMutant() != null)
-//				all_mutants.add(m.getSecondMutant());
-//		}
-//		return all_mutants;
-//	}
-//
-//	public List<CtClass> getThirdMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : maskedMutants) {
-//			if (m.getThirdMutant() != null)
-//				all_mutants.add(m.getThirdMutant());
-//		}
-//		return all_mutants;
-//	}
-//
-//	public List<CtClass> getFourthMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : maskedMutants) {
-//			if (m.getFourthMutant() != null)
-//				all_mutants.add(m.getFourthMutant());
-//		}
-//		return all_mutants;
-//	}
-//
-//	public List<CtClass> getFifthMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : maskedMutants) {
-//			if (m.getFifthMutant() != null)
-//				all_mutants.add(m.getFifthMutant());
-//		}
-//		return all_mutants;
-//	}
-//
 	private void replace(CtElement e, CtElement op) {
 		if (e instanceof CtStatement && op instanceof CtStatement) {
 			e.replace(op);
@@ -265,42 +216,7 @@ public class CodeBERTMutation<T> {
 		throw new IllegalArgumentException(e.getClass()+" "+op.getClass());
 	}
 
-//	/** tries to kill all generated mutants, throws an AssertionError if one mutant is not killed */
-//	public void killMutants() throws Exception {
-//
-//		List<Class<?>> compiledMutants = compileMutants(mutants);
-//
-//		List<T> mutantInstances = instantiateMutants(compiledMutants);
-//
-//		runTestsOnEachMutantInstance(mutantInstances);
-//
-//	}
-//
-////	/** applies the test driver of this mutation tester on each mutant instance */
-////	public void runTestsOnEachMutantInstance(List<T> mutantInstances) throws Exception {
-////		// now we run the mutants against the test class
-////		for (T t : mutantInstances) {
-////			try {
-////				testDriver.test(t);
-////				throw new MutantNotKilledException();
-////			} catch (AssertionError expected) {
-////				System.out.println("mutant killed!");
-////			}
-////		}
-////	}
-//
-//	/** instantiate the mutant classes using the default zero-arg constructor */
-//	public List<T> instantiateMutants(List<Class<?>> compiledMutants)
-//			throws Exception {
-//		// we run each mutant one by one and check whether they are killed
-//
-//		// instantiating the mutant classes
-//		for (Class mutantClass : compiledMutants) {
-//			mutantInstances.add((T) mutantClass.newInstance());
-//		}
-//		return mutantInstances;
-//	}
-//
+
 	/** compiles the mutants on the fly */
 	public List<Class<?>> compileMutants(List<CtClass> mutants) throws Exception {
 		List<Class<?>> compiledMutants = new ArrayList<>();
@@ -313,6 +229,7 @@ public class CodeBERTMutation<T> {
 		}
 		return compiledMutants;
 	}
+
 
 	public void writeMutants (String directoryOfMutants) throws IOException {
 		this.directoryToWriteMutants = directoryOfMutants;
@@ -333,7 +250,10 @@ public class CodeBERTMutation<T> {
 		File map_file = new File(map_name);
 		FileWriter map_fw = new FileWriter(map_file.getAbsoluteFile());
 		BufferedWriter map_bw = new BufferedWriter(map_fw);
-		map_bw.write("id,classname,methodname,location,start,end\n");
+		map_bw.write("id,classname,method_name,method_sig,method_def_line," +
+				"mut_location,mut_start,mut_end,mut_operator," +
+				"orig_token,pred_token,pred_pos,pred_score,masked_expr,masked_seq\n");
+
 
 		//txt format
 		String txt_name = directoryToWriteMutants + "/map-"+ basename +".txt";
@@ -341,15 +261,15 @@ public class CodeBERTMutation<T> {
 		FileWriter txt_fw = new FileWriter(txt_file.getAbsoluteFile());
 		BufferedWriter txt_bw = new BufferedWriter(txt_fw);
 
-		List<String> toPrintMutants = new LinkedList<>(mutants);
+		List<mBERTMutant> mutantsToPrint = new LinkedList<>(mutants);
 		int id = 0;
 		for (int i = 0; i < maskedMutants.size(); i++) {
 			MaskedTokenMutants mutant = maskedMutants.get(i);
 			SourcePosition position = mutant.getPosition();
-			for(String useful_mutant : mutant.getUsefulMutants()) {
-				if (!toPrintMutants.contains(useful_mutant))
+			for(mBERTMutant useful_mutant : mutant.getUsefulMutants()) {
+				if (!mutantsToPrint.contains(useful_mutant))
 					continue;
-				toPrintMutants.remove(useful_mutant);
+				mutantsToPrint.remove(useful_mutant);
 
 				File mut_folder = new File(directoryToWriteMutants+ "/"+ id );
 				if (!mut_folder.exists())
@@ -359,13 +279,21 @@ public class CodeBERTMutation<T> {
 				File file = new File(mut_name);
 				FileWriter fw = new FileWriter(file.getAbsoluteFile());
 				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(useful_mutant);
+				bw.write(useful_mutant.getMutant());
 				bw.close();
 
 				//write mutant mapping information
-				map_bw.write(id + "," + mutant.getOriginalClassName()  +","+ mutant.getMethodName() +","+ position.getLine() +","+ position.getSourceStart() +","+ position.getSourceEnd() + "\n");
+				map_bw.write(id + "," + mutant.getOriginalClassName()  +
+						","+ mutant.getMethodName() +","+ addQuote(mutant.getMethodSignature()) +","+ mutant.getMethodLine() +","+
+						position.getLine() +","+ position.getSourceStart() +","+ position.getSourceEnd() + "," +  addQuote(useful_mutant.getMutantOperator()) + ","+
+						addQuote(useful_mutant.getOriginalString()) +","+
+						addQuote(useful_mutant.getPredictedString()) +","+
+						useful_mutant.getPos() +","+
+						useful_mutant.getScore() +","+
+						addQuote(useful_mutant.getMaskedExpr()) +","+
+						addQuote(useful_mutant.getMasked_Seq()) +"\n");
 
-				txt_bw.write(id + " | " + basename + ".java | " + mutant.getMethodName() +" | " + position.getLine() + "\n");
+				txt_bw.write(id + " | " + basename + ".java | " + mutant.getMethodSignature() +" | " + position.getLine() + "\n");
 				id++;
 			}
 		}
@@ -383,6 +311,24 @@ public class CodeBERTMutation<T> {
 			}
 			unhandled_bw.close();
 		}
+	}
+
+	public String addQuote(String pValue) {
+		if (pValue == null) {
+			return null;
+		} else {
+			if (pValue.contains("\"")) {
+				pValue = pValue.replace("\"", "\"\"");
+			}
+			if (pValue.contains(",")
+					|| pValue.contains("\n")
+					|| pValue.contains("'")
+					|| pValue.contains("\\")
+					|| pValue.contains("\"")) {
+				return "\"" + pValue + "\"";
+			}
+		}
+		return pValue;
 	}
 
 }

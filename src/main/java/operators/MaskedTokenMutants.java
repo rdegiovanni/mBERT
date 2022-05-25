@@ -2,13 +2,9 @@ package operators;
 
 import org.mdkt.compiler.InMemoryJavaCompiler;
 import spoon.Launcher;
-import spoon.reflect.code.BinaryOperatorKind;
-import spoon.reflect.code.UnaryOperatorKind;
 import spoon.reflect.cu.SourcePosition;
 import spoon.reflect.declaration.CtClass;
-import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtMethod;
-import spoon.reflect.declaration.CtParameter;
 import spoon.support.reflect.declaration.CtMethodImpl;
 
 import java.util.ArrayList;
@@ -19,27 +15,27 @@ public class MaskedTokenMutants {
     String originalClassName;
     String originalClass;
     CtMethod<?> method = null;
-    String methodName;
+    String methodSig;
+    String masked_sequence = "";
     Object original = null;
     String originalString = "";
-    Object masked = null;
+    String masked = null;
+    String operator = "";
 
-    Object[] predictedTokens = new Object[5];
-    String[] predictedStrings = new String[5];
-    String[] mutants = new String[5];
     SourcePosition position;
+    mBERTMutant[] mutants = new mBERTMutant[5];
 
     List<Integer> equivalentMutants = new LinkedList<>();
     List<Integer> compilableMutants = new LinkedList<>();
     List<Integer> usefulMutants = new LinkedList<>();
 
-    public MaskedTokenMutants(String originalClassStr, CtMethod<?> method, Object original, Object masked, SourcePosition position) {
+    public MaskedTokenMutants(String originalClassStr, CtMethod<?> method, Object original, String masked, String operator, SourcePosition position) {
         originalClassName = position.getFile().getName();
         originalClass = originalClassStr; //Launcher.parseClass(originalClassStr); //method.getFactory().Core().clone(method.getParent(CtClass.class));
-//        originalClass.setParent(method.getParent());
         this.position = position;
+        this.operator = operator;
         this.method = method;
-        this.methodName = getMethodSignature(method);
+        this.methodSig = getMethodSignature(method);
         this.original = original;
         this.originalString = original.toString().replaceAll("\\s+","");
         this.masked = masked;
@@ -53,23 +49,48 @@ public class MaskedTokenMutants {
         return position;
     }
 
-    public String getMethodName () {
-        return methodName;
+    public String getMethodName() {
+        return method.getSimpleName();
+    }
+    public String getMethodSignature() {
+        return methodSig;
+    }
+
+    public int getMethodLine() {
+        return method.getPosition().getLine();
     }
 
     public String getMethodSignature(CtMethod method) {
-        String returnType = "";
-        if (((CtMethodImpl) method).getType() != null)
-            returnType = ((CtMethodImpl) method).getType().getSimpleName();
-        String funName = method.getSimpleName();
-        String params = "";
-        List<CtParameter> parameters = method.getParameters();
-        for (CtParameter p : parameters) {
-            if (params != "") params += ", ";
-            params += p.getType().getSimpleName() + " " + p.getSimpleName();
-        }
-        String sig = returnType + " " + funName + "(" + params + ")";
+        int start = ((CtMethodImpl) method).getType().getPosition().getSourceStart();
+        int end = method.getBody().getPosition().getSourceStart();
+        String sig = originalClass.substring(start,end);
+        sig = sig.replaceFirst("^\\s*", "");
+        sig = sig.replaceFirst("\\s++$", "");
         return sig;
+    }
+
+    public String getMaskedSequence() {
+        int start = position.getSourceStart();
+        int end = position.getSourceEnd();
+        int method_start = ((CtMethodImpl) method).getType().getPosition().getSourceStart();
+        int method_end = method.getPosition().getSourceEnd();
+        String mutantClassStr = originalClass.substring(0,start);
+        mutantClassStr += "<mask>";
+        mutantClassStr += originalClass.substring(end+1,method_end+1);
+        String methodStr = mutantClassStr.substring(method_start);
+        return methodStr;
+    }
+
+    private String createMutantMethod(String mutant, SourcePosition position) {
+        int start = position.getSourceStart();
+        int end = position.getSourceEnd();
+        int method_start = ((CtMethodImpl) method).getType().getPosition().getSourceStart();
+        int method_end = method.getPosition().getSourceEnd();
+        String mutantClassStr = originalClass.substring(0,start);
+        mutantClassStr += mutant;
+        mutantClassStr += originalClass.substring(end+1,method_end+1);
+        String methodStr = mutantClassStr.substring(method_start);
+        return methodStr;
     }
 
     private String createMutant(String mutant, SourcePosition position) {
@@ -81,79 +102,66 @@ public class MaskedTokenMutants {
         return mutantClassStr;
     }
 
-    public void setMutant(Object mutantToken, String mutantStr, int pos) {
+    public void setMutant(String masked_sequence, Object mutantToken, String mutantStr, int pos, float score) {
         // creating a new class containing the mutating code
         if (pos < 0 && pos >= mutants.length)
             throw new ArrayIndexOutOfBoundsException("Invalid mutant position.");
+        this.masked_sequence = masked_sequence;
         if (mutantToken == null) {
             System.out.println("Invalid token predicted. Original: " + originalString + ". Predicted: " + mutantStr);
-            predictedTokens[pos] = null;
-            predictedStrings[pos] = mutantStr;//.replaceAll("\\s+","");
-            mutants[pos] = null;
+//            predictedTokens[pos] = null;
+//            predictedStrings[pos] = mutantStr;//.replaceAll("\\s+","");
+            mBERTMutant mutant = new mBERTMutant(operator,originalString,masked,mutantToken,mutantStr,null,position,score,pos,masked_sequence);
+            mutants[pos] = mutant;
         }
         else {
-            predictedTokens[pos] = mutantToken;
-            predictedStrings[pos] = mutantStr;//.replaceAll("\\s+", "");
-            mutants[pos] = createMutant(mutantStr,position);
-//            CtClass klass = Launcher.parseClass(method.getParent(CtClass.class).toString()); //method.getFactory().Core().clone(method.getParent(CtClass.class));
-            // setting the package
-//            klass.setParent(method.getParent()); //BUGGY: *** java.lang.instrument ASSERTION FAILED ***: "!errorOutstanding" with message transform method call failed at JPLISAgent.c line: 873
-//            CtClass klass = method.getParent(CtClass.class);
-//            klass.getFactory().getEnvironment().setAutoImports(true);
-//            try {
-//                mutants[pos] = klass.toStringWithImports(); //toString();
-//            }
-//            catch (Exception e) {
-//                mutants[pos] = klass.prettyprint(); //toString();
-//            }
-
-            //check is mutant is compilable
-            boolean isCompilable = true;//isMutantCompilable(klass);
-            if (isCompilable && !compilableMutants.contains(pos)) {
-                compilableMutants.add(pos);
-            }
+            String mutantCode = createMutant(mutantStr,position);
+            mBERTMutant mutant = new mBERTMutant(operator,originalString,masked,mutantToken,mutantStr,mutantCode,position,score,pos,masked_sequence);
 
             //check if predicted token is equivalent to the original one
             boolean isEquivalent = isMutantEquivalent(originalString,mutantStr);
             if (isEquivalent && !equivalentMutants.contains(pos))
                 equivalentMutants.add(pos);
+            mutant.setEquivalent(isEquivalent);
 
-            if (isCompilable && !isEquivalent && !usefulMutants.contains(pos))
+            //check is mutant is compilable
+            boolean isCompilable = true;
+
+            if (isCompilable && !compilableMutants.contains(pos)) {
+                compilableMutants.add(pos);
+            }
+            mutant.setCompilable(isCompilable);
+
+            if (isCompilable && !isEquivalent && !usefulMutants.contains(pos)) {
                 usefulMutants.add(pos);
+                mutant.setUseful(true);
+            }
+            mutants[pos] = mutant;
         }
     }
 
 
-    public String getMutant(int pos) {
+    public mBERTMutant getMutant(int pos) {
         if (pos < 0 && pos >= mutants.length)
             throw new ArrayIndexOutOfBoundsException("Invalid mutant position.");
         return mutants[pos];
     }
 
-    public List<String> getCompilableMutants() {
-        List<String> compiledMutants = new ArrayList<>();
-        for (Integer pos : compilableMutants) {
-            String klass = mutants[pos];
-            if (!compiledMutants.contains(klass))
-                compiledMutants.add(klass);
-        }
-        return compiledMutants;
-    }
 
-    public boolean isMutantCompilable(CtClass mutantClass) {
-        return true;
-//        boolean isCompilable = false;
-//        try {
-//            Class<?> klass = InMemoryJavaCompiler.newInstance().compile(
-//                    mutantClass.getQualifiedName(), "package "
-//                            + mutantClass.getPackage().getQualifiedName() + ";"
-//                            + mutantClass);
-//            isCompilable = true;
-//        }
-//        catch (Exception e) {
-//            System.out.println("mutant not compilable");
-//        }
-//        return isCompilable;
+    public boolean isMutantCompilable(String mutantCode) {
+//        return true;
+        boolean isCompilable = false;
+        try {
+           CtClass mutantClass = Launcher.parseClass(mutantCode);
+            Class<?> klass = InMemoryJavaCompiler.newInstance().compile(
+                    mutantClass.getQualifiedName(), mutantClass.toStringWithImports());
+            isCompilable = true;
+        }
+        catch (Exception e) {
+
+            System.out.println("mutant not compilable");
+        }
+        return isCompilable;
     }
 
     public boolean isMutantEquivalent(String orig, String mutant) {
@@ -166,32 +174,12 @@ public class MaskedTokenMutants {
         return isEquivalent;
     }
 
-    public List<String> getEquivalentMutants() {
-        List<String> equivMutants = new ArrayList<>();
-        for (Integer pos : equivalentMutants) {
-            String klass = mutants[pos];
-            if (!equivMutants.contains(klass))
-                equivMutants.add(klass);
-        }
-        return equivMutants;
-    }
 
-    public List<String> getNONEquivalentMutants() {
-        List<String> nonEquivMutants = new ArrayList<>();
-        for (int i = 0; i<mutants.length; i++) {
-            if (!equivalentMutants.contains(i)) {
-                String klass = mutants[i];
-                if(!nonEquivMutants.contains(klass))
-                    nonEquivMutants.add(klass);
-            }
-        }
-        return nonEquivMutants;
-    }
 
-    public List<String> getUsefulMutants() {
-        List<String> usefulMutants = new ArrayList<>();
+    public List<mBERTMutant> getUsefulMutants() {
+        List<mBERTMutant> usefulMutants = new ArrayList<>();
         for (Integer pos : this.usefulMutants) {
-            String klass = mutants[pos];
+            mBERTMutant klass = mutants[pos];
             if (!usefulMutants.contains(klass))
                 usefulMutants.add(klass);
         }

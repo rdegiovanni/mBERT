@@ -26,7 +26,9 @@ public class CodeBERTOperatorMutator extends AbstractProcessor<CtElement> {
     @Override
     public boolean isToBeProcessed(CtElement candidate) {
         //first we list exceptions
-        if (isImplicit(candidate))
+//        if (isImplicit(candidate))
+//            return false;
+        if (candidate.isImplicit() || candidate.getPosition() == null)
             return false;
         if (candidate instanceof CtConstructorCall ||
                 candidate instanceof CtTypeAccess ||
@@ -40,7 +42,8 @@ public class CodeBERTOperatorMutator extends AbstractProcessor<CtElement> {
             return true;
         if (candidate instanceof CtTypeReference && candidate.getParent() != null
                 && candidate.getParent() instanceof CtTypeAccess
-                && !inheritsFromConstructorCall(candidate)) {
+                && !inheritsFromConstructorCall(candidate)
+                && candidate.getPosition().isValidPosition()) {
             return true;
         }
         return false;
@@ -143,7 +146,7 @@ public class CodeBERTOperatorMutator extends AbstractProcessor<CtElement> {
     }
 
     public boolean isImplicit (CtElement e) {
-        if (e == null || e instanceof CtMethod || e instanceof CtClass)
+        if (e == null || e instanceof CtMethod || e instanceof CtClass || e instanceof CtReturn)
             return false;
         if (e.isImplicit())
             return true;
@@ -179,60 +182,13 @@ public class CodeBERTOperatorMutator extends AbstractProcessor<CtElement> {
         return mutants;
     }
 
-    public List<String> getAllMutants() {
-        List<String> all_mutants = new LinkedList<>();
+    public List<mBERTMutant> getAllMutants() {
+        List<mBERTMutant> all_mutants = new LinkedList<>();
         for(MaskedTokenMutants m : mutants) {
             all_mutants.addAll(m.getUsefulMutants());
         }
         return all_mutants;
     }
 
-//	public List<CtClass> getFirstMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : mutants) {
-//			if (m.getFirstMutant() != null)
-//				all_mutants.add(m.getFirstMutant());
-//		}
-//		return all_mutants;
-//	}
-//
-//
-//	public List<CtClass> getSecondMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : mutants) {
-//			if (m.getSecondMutant() != null)
-//				all_mutants.add(m.getSecondMutant());
-//		}
-//		return all_mutants;
-//	}
-//
-//
-//	public List<CtClass> getThirdMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : mutants) {
-//			if (m.getThirdMutant() != null)
-//				all_mutants.add(m.getThirdMutant());
-//		}
-//		return all_mutants;
-//	}
-//
-//
-//	public List<CtClass> getFourthMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : mutants) {
-//			if (m.getFourthMutant() != null)
-//				all_mutants.add(m.getFourthMutant());
-//		}
-//		return all_mutants;
-//	}
-//
-//
-//	public List<CtClass> getFifthMutants() {
-//		List<CtClass> all_mutants = new LinkedList<>();
-//		for(MaskedTokenMutants m : mutants) {
-//			if (m.getFifthMutant() != null)
-//				all_mutants.add(m.getFifthMutant());
-//		}
-//		return all_mutants;
-//	}
+
 }

@@ -21,61 +21,45 @@ public class CodeBERTInvocationMutator extends CodeBERTOperatorMutator{
         return candidate instanceof CtInvocation;
     }
 
+    public String getOperator(CtExpression candidate) {
+        return "MethodCallMutator";
+    }
+
     public MaskedTokenMutants mutate(CtInvocation original) {
         String originalOp = original.getExecutable().getSimpleName();
 
         //compute token to mutate position
         int start = original.getPosition().getSourceStart();
         if (original.getTarget()!= null && !original.getTarget().isImplicit() && original.getTarget().toString().length() > 0)
-//            start = original.getTarget().getPosition().getSourceStart() + original.getTarget().toString().length()+1;
             start = original.getTarget().getPosition().getSourceEnd() + 2;//one more for .
         int end = start + originalOp.length() -1;
 
         CompilationUnit origUnit = original.getPosition().getCompilationUnit();
         SourcePosition position = new SourcePositionImpl(origUnit,start,end,origUnit.getLineSeparatorPositions());
 
-        CtExecutableReference originalExecutableReference = original.getExecutable();
-        MyExecutableReferenceImpl masked =  new MyExecutableReferenceImpl();
-        masked.setSimpleName("<mask>");
-//        masked.setParent(originalExecutableReference.getParent());
-//        masked.setDeclaringType(originalExecutableReference.getDeclaringType());
-//        masked.setParameters(originalExecutableReference.getParameters());
-//        masked.setStatic(originalExecutableReference.isStatic());
-//        masked.setType(originalExecutableReference.getType());
-//        masked.setActualTypeArguments(originalExecutableReference.getActualTypeArguments());
+        String operator = getOperator(original);
 
-        original.setExecutable(masked);
-
-        String maskedMethodStr = method.toString();
-//        CtComment comment = new CtCommentImpl();
-//        CtElement parentStmt = getStatementToComment(masked);
-//        if (parentStmt != null) {
-//            comment.setContent(masked.toString());
-//            comment.setCommentType(CtComment.CommentType.BLOCK);
-//            parentStmt.addComment(comment);
-//        }
+        String maskedExprStr = (original.getTarget()== null || original.getTarget().toString()=="")?"<mask>":original.prettyprint().replace(originalOp,"<mask>");
+        MaskedTokenMutants maskedTokenMutants = new MaskedTokenMutants(originalClassStr,method,originalOp,maskedExprStr,operator,position);
+        String maskedMethodStr = maskedTokenMutants.getMaskedSequence();
         CodeBERT.CodeBERTResult result = CodeBERT.mutate(maskedMethodStr);
-        MaskedTokenMutants maskedTokenMutants = new MaskedTokenMutants(originalClassStr,method,originalOp,masked.toString(),position);
-//        maskedOp.unmask();
         if (result == CodeBERT.CodeBERTResult.SUCCEEDED) {
+            String masked_seq = CodeBERT.masked_sequence;
             for (int pos = 0; pos < CODEBERT_NUM_OF_PREDICTIONS; pos++) {
                 if (CodeBERT.predictedTokens.size() > pos) {
                     String predToken = CodeBERT.predictedTokens.get(pos);
+                    float score = CodeBERT.predictedScores.get(pos);
                     try {
-                        masked.setSimpleName(predToken);
-                        maskedTokenMutants.setMutant(masked.toString(), predToken, pos);
+                        maskedTokenMutants.setMutant(masked_seq,predToken, predToken, pos, score);
                     }
                     catch (Exception e) {
                         System.out.println("CodeBERTInvocationMutator - invalid method invocation name: " + e.getMessage());
                     }
                 }
             }
-//            maskedOp.setLabel("");
+
             mutants.add(maskedTokenMutants);
         }
-//        if (parentStmt != null)
-//            parentStmt.removeComment(comment);
-        original.setExecutable(originalExecutableReference);
         return maskedTokenMutants;
     }
 }
