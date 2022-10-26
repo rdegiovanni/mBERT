@@ -36,7 +36,7 @@ public class Main {
                 if (method.contains(":")) {
                     String [] ml = method.split(":");
                     method = ml[0];
-                    line = Integer.parseInt(ml[2]);
+                    line = Integer.parseInt(ml[1]);
                 }
                 methods.add(method);
                 methodLines.add(line);
