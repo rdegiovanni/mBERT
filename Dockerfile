@@ -20,14 +20,14 @@ COPY . .
 # Display installed Python and pip versions
 RUN python3 --version && pip --version
 
-RUN python3 download-codebert.py
-
 RUN mvn clean install -DskipTests=true
 
 RUN pip install --upgrade pip
 
 RUN pip3 install torch
 RUN pip3 install transformers
+
+RUN python3 download-codebert.py
 
 # Define an environment variables for targeted project root and targeted directories to mutate
 ENV TARGET_PROJECT_EXE_ROOT /tmp/target_project_test
