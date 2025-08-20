@@ -25,6 +25,8 @@
 4. Compile **mBERT**: `mvn compile`. 
 5. Done! Try **mBERT** by running: `./mBERT.sh`
 
+> ./mBERT.sh -in=examples/SimpleMethods.java -out=mutants/ -N=5
+
 ## Executing mBERT
 **mBERT** provides some flags that you can configure:
 - `-in=source_file_name` 
